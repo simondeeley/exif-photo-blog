@@ -3,11 +3,10 @@
 import { clsx } from 'clsx/lite';
 import AppGrid from '../components/AppGrid';
 import ThemeSwitcher from '@/app/ThemeSwitcher';
-import Link from 'next/link';
 import { SHOW_REPO_LINK } from '@/app/config';
 import RepoLink from '../components/RepoLink';
 import { usePathname } from 'next/navigation';
-import { PATH_ADMIN_PHOTOS, isPathAdmin, isPathSignIn } from './path';
+import { isPathAdmin, isPathSignIn } from './path';
 import SubmitButtonWithStatus from '@/components/SubmitButtonWithStatus';
 import { signOutAction } from '@/auth/actions';
 import AnimateItems from '@/components/AnimateItems';
