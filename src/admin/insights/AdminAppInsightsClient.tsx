@@ -48,6 +48,8 @@ import IconPhoto from '@/components/icons/IconPhoto';
 import { HiOutlineDocumentText } from 'react-icons/hi';
 import { ReactNode } from 'react';
 import MaskedScroll from '@/components/MaskedScroll';
+import IconNext from '@/components/icons/IconNext';
+import Link from 'next/link';
 
 const DEBUG_COMMIT_SHA = '4cd29ed';
 const DEBUG_COMMIT_MESSAGE = 'Long commit message for debugging purposes';
@@ -113,6 +115,7 @@ const renderWarningIconSmall =
 
 export default function AdminAppInsightsClient({
   codeMeta,
+  nextVersion,
   insights,
   usedDeprecatedEnvVars,
   photoStats: {
@@ -129,6 +132,7 @@ export default function AdminAppInsightsClient({
   },
 }: {
   codeMeta?: Awaited<ReturnType<typeof getGitHubMetaForCurrentApp>>
+  nextVersion: string
   insights: ReturnType<typeof getAllInsights>
   usedDeprecatedEnvVars: typeof USED_DEPRECATED_ENV_VARS
   photoStats: PhotoStats
@@ -140,7 +144,7 @@ export default function AdminAppInsightsClient({
     noFork,
     forkBehind,
     noAi,
-    noAiRateLimiting,
+    noRateLimiting,
     noConfiguredDomain,
     noConfiguredMetaTitle,
     noConfiguredMetaDescription,
@@ -276,6 +280,16 @@ export default function AdminAppInsightsClient({
               </span>
             </a>}
           />
+          <ScoreCardRow
+            icon={<IconNext className="self-start translate-y-px" />}
+            content={<Link
+              // eslint-disable-next-line max-len
+              href={`https://github.com/vercel/next.js/releases/tag/v${nextVersion}`}
+              target="blank"
+            >
+              Next.js {nextVersion}
+            </Link>}
+          />
         </ScoreCard>
       </>}
       <ScoreCard title="Template recommendations">
@@ -318,17 +332,17 @@ export default function AdminAppInsightsClient({
                 </div>
               </div>}
             />}
-            {(noAiRateLimiting || debug) && <ScoreCardRow
+            {(noRateLimiting || debug) && <ScoreCardRow
               icon={renderWarningIconLarge}
               content={isExpanded => renderHighlightText(
-                'Enable AI rate limiting',
+                'Enable rate limiting',
                 'yellow',
                 !isExpanded,
               )}
               expandContent={<>
                 Create Upstash Redis store from storage tab on
                 Vercel dashboard and link to this project to
-                prevent abuse by enabling rate limiting.
+                prevent unexpected usage by enabling rate limiting.
               </>}
             />}
             {(noConfiguredDomain || debug) && <ScoreCardRow
